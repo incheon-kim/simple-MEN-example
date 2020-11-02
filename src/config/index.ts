@@ -7,7 +7,8 @@ const config = {
         name : "menTest"
     },
     env:{
-        PORT : 4000
+        PORT : 4000,
+        secret: "doyoureallywannaknowwhatsecretis"
     }
 }
 

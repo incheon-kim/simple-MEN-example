@@ -3,6 +3,7 @@ import router from "./routes"
 import config from "./config"
 import ejs from "ejs"
 import bodyParser from "body-parser"
+import session from "./session"
 
 const app = express()
 const PORT = config.env.PORT || 4000
@@ -10,7 +11,7 @@ const PORT = config.env.PORT || 4000
 // set request body parser
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json());
-
+app.use(session)
 
 // set router
 app.use("/", router)

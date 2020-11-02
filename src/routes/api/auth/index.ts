@@ -35,6 +35,8 @@ router.route("/login")
 
             switch(result){
               case User.UserResponse.LoggedIn:
+                const session : Express.Session | undefined = req.session
+                session!.username = req.body.username
                 res.status(200).send({result : "login successfully"})
                 break
               case User.UserResponse.UserNotExist:
@@ -52,4 +54,15 @@ router.route("/login")
           }
       })
 
+router.route("/logout")
+      .get((req,res)=>{
+        if(req.session){
+          const session : Express.Session = req.session
+          session.destroy(err => console.error(err))
+          
+          res.status(200).redirect("/")
+        }else{
+          res.status(400).send({result : "Invalid Request, You are not logged in"})
+        }
+      })
 export default router
