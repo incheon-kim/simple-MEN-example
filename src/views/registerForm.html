@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<head>
+    <title>MEN_Example</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <!-- <form action="/api/auth/register" method="POST"> -->
+    <div id="container">
+        <label for="username">ID : </label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">PW : </label>
+        <input type="password" id="password" name="password" required>
+        <input type="password" id="password2" name="password2" required>
+        <button type="submit" id="registerBtn" disabled>Register</button>
+    </div>
+</body>
+<footer>
+    <script>
+        var pass1 = document.getElementById("password")
+        var pass2 = document.getElementById("password2")
+
+        document.getElementById('password2').onchange = function() {
+            console.log(pass1.value, pass2.value)
+            if(pass1.value === pass2.value){
+                document.getElementById("registerBtn").disabled = false
+            }else{
+                document.getElementById("registerBtn").disabled = true
+            }
+        }
+        
+        document.getElementById("registerBtn").onclick = () => {
+            if (pass1.value !== pass2.value){
+                alert("Password is not matching!")
+            }else{
+                fetch(location.origin+"/api/auth/register",{
+                    method : "POST",
+                    body: JSON.stringify({
+                        username : document.getElementById("username").value,
+                        password : pass1.value
+                    }),
+                    headers:{
+                        "Content-Type": "application/json"
+                    }
+                })
+                .then((res)=>{
+                    if(res.status == 200 || res.status == 201){
+                        res.json().then(data => console.log(data)) 
+                    }else{
+                        console.error(res.statusText)
+                    }
+                })
+                .catch(err => console.error(err))
+            }
+        }
+    </script>
+</footer>
